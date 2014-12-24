@@ -18,38 +18,46 @@
 				height: 578px;
 				margin: 50px auto;
 				position: relative;
-				background: url('kanye-closed.png') no-repeat;
+				background: url('kanye.png') no-repeat;
+				cursor: pointer;
 			}
 
-			#kanye-honk {
-				display: none;
-				width: 574px;
-				height: 578px;
-				margin: 50px auto;
-				position: relative;
-				background: url('kanye.png') no-repeat;
-			}
 		</style>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	</head>
 	<body>
 		<div id="kanye"></div>
-		<div id="kanye-honk"></div>
-
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var audio = document.createElement('audio');
 				audio.src = 'honk.mp3'
 
-				$("#kanye").click(function() {
-					$("#kanye").css('display', 'none');
-					$("#kanye-honk").css('display', 'block');
+				// preload honk image
+				var honkImage = new Image();
+				honkImage.src= "kanye-honk.png";
+
+				function showHonk() {
+					$("#kanye").css('background', 'url("' + honkImage.src + '") no-repeat');
 					audio.play();
+				}
+
+				function hideHonk() {
+					$("#kanye").removeAttr('style');
+				}
+
+				$("#kanye").click(function() {
+					showHonk();
 				});
 
 				audio.addEventListener('ended', function() {
-					$("#kanye").css('display', 'block');
-					$("#kanye-honk").css('display', 'none');
+					hideHonk();
+				});
+
+				$(document).keydown(function(e) {
+					if (e.keyCode == '32') {
+						e.preventDefault();
+						showHonk();
+					}
 				});
 			});
 
